@@ -1,4 +1,4 @@
-import time
+import time, os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as WebDriverOptions
 from selenium.webdriver.support.ui import Select
@@ -23,7 +23,7 @@ def set_options():
 
 def navigate(url, img):
     # init driver
-    driver = webdriver.Chrome(r"C:\pythonCode\chromedriver.exe", options=set_options())
+    driver = webdriver.Chrome(r"C:\prodCode\chromedriver.exe", options=set_options())
 
     # Open webpage in headless Chrome
     driver.get(url)
@@ -131,7 +131,7 @@ def pass_captcha(driver):
 
 def send_gmail(attach):
     sender = "gfreundt@gmail.com"
-    send_to_list = ["gfreundt@losportales.com.pe"]
+    send_to_list = ["gfreundt@losportales.com.pe", "mcolan@losportales.com.pe"]
     subject = "Estado SEACE " + dt.now().strftime("%m-%d-%Y  %H-%M")
     body = "Actualizado."
     yag = yagmail.SMTP(sender)
@@ -140,15 +140,17 @@ def send_gmail(attach):
 
 
 def main():
-    start = time.time()
     url = "https://prodapp2.seace.gob.pe/seacebus-uiwd-pub/buscadorPublico/buscadorPublico.xhtml"
     image_list = [
         f"SEACE-PRINCIPAL {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
         f"SEACE-ACCIONES {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
     ]
+    # extract screenshots
     navigate(url, image_list)
+    # email screenshots
     send_gmail(image_list)
-    print(f"Total time: {time.time() - start}")
-
+    # erase screenshots
+    for img in image_list:
+        os.remove(img)
 
 main()
