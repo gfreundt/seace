@@ -63,27 +63,27 @@ def navigate(url, img):
     pass_captcha(driver)
     time.sleep(2)
 
-    # select ficha and scroll to bottom
+    # select ficha, take screenshot, scroll to bottom and take new screenshot
     driver.find_element_by_xpath(
         "/html/body/div[3]/div/div[1]/div[1]/div[1]/form/table[2]/tbody/tr/td/div/div[2]/div/div[1]/table/tbody/tr[11]/td[13]/a[2]/img"
     ).click()
     time.sleep(2)
-    driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-
-    # screenshot 1 saved
     driver.save_screenshot(img[0])
     time.sleep(2)
+    driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+    driver.save_screenshot(img[1])
+    time.sleep(2)
 
-    # select documentos and scroll
+    # select documentos and scroll to bottom and take screenshot
     driver.find_element_by_xpath(
         "/html/body/div[3]/div/div/div/div/form/fieldset[3]/div/table/tbody/tr[1]/td[3]/a/img"
     ).click()
     time.sleep(2)
     driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
-    # screenshot 2 saved
-    driver.save_screenshot(img[1])
+    driver.save_screenshot(img[2])
 
-    time.sleep(5)
+    # wait before closing browser
+    time.sleep(3)
 
 
 def pass_captcha(driver):
@@ -142,7 +142,8 @@ def send_gmail(attach):
 def main():
     url = "https://prodapp2.seace.gob.pe/seacebus-uiwd-pub/buscadorPublico/buscadorPublico.xhtml"
     image_list = [
-        f"SEACE-PRINCIPAL {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
+        f"SEACE-PRINCIPAL-1 {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
+        f"SEACE-PRINCIPAL-2 {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
         f"SEACE-ACCIONES {dt.now().strftime('%m-%d-%Y  %H-%M')}.png",
     ]
     # extract screenshots
